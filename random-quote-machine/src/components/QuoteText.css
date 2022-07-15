@@ -1,0 +1,9 @@
+.quote-text {
+    font-size: 30px;
+    text-align: center;
+}
+
+.quote-text #text{
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}

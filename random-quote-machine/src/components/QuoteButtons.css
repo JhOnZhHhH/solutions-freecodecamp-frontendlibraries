@@ -1,0 +1,7 @@
+.buttons .btn{
+    margin: 10px;
+}
+
+.buttons #btn-new-quote{
+    float: right;
+}

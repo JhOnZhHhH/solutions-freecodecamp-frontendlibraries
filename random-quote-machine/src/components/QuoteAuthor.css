@@ -1,0 +1,8 @@
+.quote-author{
+    font-size: 18px;
+    text-align: right;
+}
+
+.quote-author #author{
+    font-family: 'Courier New', Courier, monospace;
+}
