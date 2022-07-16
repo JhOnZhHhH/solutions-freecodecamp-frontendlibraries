@@ -2,6 +2,11 @@
     margin: 10px;
 }
 
-.buttons #btn-new-quote{
+.buttons #new-quote{
     float: right;
+}
+
+.btn-primary{
+    background-color: blue;
+    border-color: blue;
 }

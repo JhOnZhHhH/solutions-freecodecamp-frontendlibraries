@@ -1,47 +1,72 @@
-import QuoteText from './components/QuoteText';
-import QuoteAuthor from './components/QuoteAuthor';
-import QuoteButtons from './components/QuoteButtons';
-import { useState } from 'react';
-import './App.css';
+import QuoteText from "./components/QuoteText";
+import QuoteAuthor from "./components/QuoteAuthor";
+import QuoteButtons from "./components/QuoteButtons";
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState({
+    quotes: [],
+    isFetching: true,
+    idQuote: 0,
+    color: "#0000ff"
+  });
 
-  const [idQuote, setIdQuote] = useState(0);
+  const URL_QUOTES =
+    "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json";
 
-  const listQuotes = [
-    {
-      quoteId: "1",
-      quoteText: "What’s money? A man is a success if he gets up in the morning and goes to bed at night and in between does what he wants to do.",
-      quoteAuthor: "Bob Dylan",
-      quoteColor: "Aquamarine"
-    },
-    {
-      quoteId: "2",
-      quoteText: "Life is what happens to you while you’re busy making other plans.",
-      quoteAuthor: "John Lennon",
-      quoteColor: "BlueViolet"
-    },
-    {
-      quoteId: "3",
-      quoteText: "Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails.  Explore, Dream, Discover.",
-      quoteAuthor: "Mark Twain",
-      quoteColor: "BlanchedAlmond"
+  useEffect(() => {
+    const fetchQuotesWithFetchApi = () => {
+      setData(d => {return { ...d, isFetching: true }});
+      fetch(URL_QUOTES)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setData(d => {return { ...d, quotes: result.quotes, isFetching: false }});
+        })
+        .catch((e) => console.log(e));
+    };
+    fetchQuotesWithFetchApi();
+  }, []);
+
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
-  ]
+    return color;
+  }
 
-  const getRandomQuote = () =>{
-    const randomNumber = Math.floor(Math.random()*(listQuotes.length));
-    setIdQuote(randomNumber);
+  const getRandomQuote = () => {
+    const randomNumber = Math.floor(Math.random() * data.quotes.length);
+    const randomColor = getRandomColor();
+    document.querySelector("body").style.backgroundColor = randomColor;
+    setData({ ...data, idQuote: randomNumber, color: randomColor});
+    
   };
 
+  if (data.isFetching) {
+    return (
+      <div id="wrapper">
+        <div id="quote-box">
+          <p>..isFetching</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div id="wrapper">
-      <div id="quote-box">
-        <QuoteText quote={listQuotes[idQuote].quoteText}/>
-        <QuoteAuthor author={listQuotes[idQuote].quoteAuthor} />
-        <QuoteButtons onClickHandler={getRandomQuote}/>
+    <div id="container-box">
+      <div id="wrapper">
+        <div id="quote-box">
+          <QuoteText quote={data.quotes[data.idQuote].quote} randomColor={data.color}/>
+          <QuoteAuthor author={data.quotes[data.idQuote].author} randomColor={data.color}/>
+          <QuoteButtons onClickHandler={getRandomQuote} randomColor={data.color} quote={data.quotes[data.idQuote].quote}/>
+        </div>
       </div>
     </div>
+    
   );
 }
 
