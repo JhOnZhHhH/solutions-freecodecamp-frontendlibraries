@@ -63,7 +63,9 @@ And here. | Okay. | I think we get it.\n\
       <div className='row centered_item'>
         <textarea id='editor' value={enteredText} onChange={handleChangeText}></textarea>
       </div>
-      <div id='preview' dangerouslySetInnerHTML={{__html: marked.parse(enteredText)}}>
+      <div  className='row'>
+        <div id='preview' className='centered_item' dangerouslySetInnerHTML={{__html: marked.parse(enteredText)}}>
+        </div>
       </div>
     </div>
   );

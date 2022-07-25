@@ -3,3 +3,13 @@
   width: 50%;
   min-height: 200px;
 }
+
+#preview{
+  border: 2px solid #969696;
+  border-radius: 1em;
+  padding: 2em;
+}
+
+#preview img{
+  max-width: 100%;
+}
